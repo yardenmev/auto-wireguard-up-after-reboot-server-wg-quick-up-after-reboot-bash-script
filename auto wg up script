@@ -1,0 +1,55 @@
+#!/bin/bash
+color="\e[0;36m"
+
+#Create rc-local unit file
+echo ""
+echo -e "${color}Create rc-local unit file \e[0m"
+echo ""
+sleep 1
+sudo echo "[Unit]
+Description=/etc/rc.local Compatibility
+ConditionPathExists=/etc/rc.local
+
+[Service]
+Type=forking
+ExecStart=/etc/rc.local start
+TimeoutSec=0
+StandardOutput=tty
+RemainAfterExit=yes
+SysVStartPriority=99
+
+[Install]
+WantedBy=multi-user.target" >> /etc/systemd/system/rc-local.service
+echo "done"
+
+#Create a rc.local script file *you can change the wg0 interface if you need 
+echo ""
+echo -e "${color}Create a rc.local script file \e[0m"
+echo ""
+sleep 1
+sudo echo "#!/bin/bash
+wg-quick up wg0
+exit 0" >>  /etc/rc.local
+echo "done"
+
+#Give executible permission
+echo ""
+echo -e "${color}changing premission rc.loacl  \e[0m"
+echo ""
+sleep 1
+sudo chmod +x /etc/rc.local
+echo "done"
+
+#enable rc-local
+echo -e "${color}enable rc-local \e[0m"
+echo ""
+sleep 1
+sudo systemctl enable rc-local
+echo "done"
+
+#start rc-local.service
+echo -e "${color}start rc-local.service \e[0m"
+echo ""
+sleep 1
+sudo systemctl start rc-local.service
+echo "done"
