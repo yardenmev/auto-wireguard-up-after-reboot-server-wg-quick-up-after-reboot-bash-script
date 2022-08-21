@@ -34,7 +34,7 @@ echo "done"
 
 #Give executible permission
 echo ""
-echo -e "${color}changing premission rc.loacl  \e[0m"
+echo -e "${color}changing permission rc.loacl  \e[0m"
 echo ""
 sleep 1
 sudo chmod +x /etc/rc.local
